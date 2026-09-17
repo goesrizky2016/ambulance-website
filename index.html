@@ -1,5 +1,7 @@
+
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
 
@@ -24,6 +26,7 @@
         rel="stylesheet"
     >
 
+    <!-- CSS -->
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -50,9 +53,11 @@
         </a>
 
 
+        <!-- MOBILE MENU -->
         <button
             class="mobile-menu-button"
             id="mobileMenuButton"
+            type="button"
             aria-label="Buka menu"
             aria-expanded="false"
         >
@@ -62,13 +67,28 @@
         </button>
 
 
+        <!-- NAVIGATION -->
         <nav class="main-nav" id="mainNav">
 
-            <a href="#beranda" class="active">Beranda</a>
-            <a href="#layanan">Layanan</a>
-            <a href="#armada">Armada</a>
-            <a href="#keunggulan">Keunggulan</a>
-            <a href="#faq">FAQ</a>
+            <a href="#beranda" class="active">
+                Beranda
+            </a>
+
+            <a href="#layanan">
+                Layanan
+            </a>
+
+            <a href="#armada">
+                Armada
+            </a>
+
+            <a href="#keunggulan">
+                Keunggulan
+            </a>
+
+            <a href="#faq">
+                FAQ
+            </a>
 
             <a
                 href="https://wa.me/6281219727254?text=Halo%20Ambulance%20Care,%20saya%20ingin%20mendapatkan%20informasi%20layanan%20ambulans."
@@ -120,10 +140,8 @@
             class="hero-ambulance"
         >
 
-        <!-- gradient supaya bagian kiri gambar menyatu dengan teks -->
         <div class="image-left-gradient"></div>
 
-        <!-- gradient bawah -->
         <div class="image-bottom-gradient"></div>
 
     </div>
@@ -179,24 +197,15 @@
 
                     </span>
 
-                    <span>Hubungi Sekarang</span>
+                    <span>
+                        Hubungi Sekarang
+                    </span>
 
-                    <span class="btn-arrow">→</span>
+                    <span class="btn-arrow">
+                        →
+                    </span>
 
                 </a>
-
-
-                <!-- <a href="#layanan" class="btn btn-secondary">
-
-                    <span>
-                        Lihat Layanan
-                    </span>
-
-                    <span class="secondary-arrow">
-                        ›
-                    </span>
-
-                </a> -->
 
             </div>
 
@@ -445,13 +454,12 @@
         </div>
 
 
-        <!-- =========================================
-             FLEET SLIDER
-        ========================================== -->
+        <!-- FLEET SLIDER -->
 
         <div class="fleet-slider-wrapper">
 
-            <!-- TOMBOL PREV -->
+            <!-- PREV -->
+
             <button
                 class="fleet-arrow fleet-prev"
                 type="button"
@@ -462,14 +470,16 @@
 
 
             <!-- SLIDER -->
-            <div class="fleet-slider">
+
+            <div
+                class="fleet-slider"
+                aria-label="Daftar armada"
+            >
 
                 <div class="fleet-track">
 
 
-                    <!-- =================================
-                         ARMADA 1
-                    ================================== -->
+                    <!-- ARMADA 1 -->
 
                     <article class="fleet-card">
 
@@ -478,6 +488,7 @@
                             <img
                                 src="images/ambulan1.png"
                                 alt="Ambulans Pasien"
+                                draggable="false"
                             >
 
                             <span class="fleet-badge">
@@ -507,10 +518,7 @@
                     </article>
 
 
-
-                    <!-- =================================
-                         ARMADA 2
-                    ================================== -->
+                    <!-- ARMADA 2 -->
 
                     <article class="fleet-card">
 
@@ -519,6 +527,7 @@
                             <img
                                 src="images/ambulan1.png"
                                 alt="Mobil Jenazah"
+                                draggable="false"
                             >
 
                         </div>
@@ -545,10 +554,7 @@
                     </article>
 
 
-
-                    <!-- =================================
-                         ARMADA 3
-                    ================================== -->
+                    <!-- ARMADA 3 -->
 
                     <article class="fleet-card">
 
@@ -557,6 +563,7 @@
                             <img
                                 src="images/ambulan1.png"
                                 alt="Ambulans VIP"
+                                draggable="false"
                             >
 
                         </div>
@@ -583,10 +590,7 @@
                     </article>
 
 
-
-                    <!-- =================================
-                         ARMADA 4
-                    ================================== -->
+                    <!-- ARMADA 4 -->
 
                     <article class="fleet-card">
 
@@ -595,6 +599,7 @@
                             <img
                                 src="images/ambulan1.png"
                                 alt="Ambulans Stand By Event"
+                                draggable="false"
                             >
 
                         </div>
@@ -626,7 +631,8 @@
             </div>
 
 
-            <!-- TOMBOL NEXT -->
+            <!-- NEXT -->
+
             <button
                 class="fleet-arrow fleet-next"
                 type="button"
@@ -638,25 +644,35 @@
         </div>
 
 
-        <!-- =========================================
-             SLIDER DOTS
-        ========================================== -->
+        <!-- SLIDER DOTS -->
 
         <div class="fleet-dots">
 
-    <button
-        class="fleet-dot active"
-        type="button"
-        aria-label="Slide 1"
-    ></button>
+            <button
+                class="fleet-dot active"
+                type="button"
+                aria-label="Slide 1"
+            ></button>
 
-    <button
-        class="fleet-dot"
-        type="button"
-        aria-label="Slide 2"
-    ></button>
+            <button
+                class="fleet-dot"
+                type="button"
+                aria-label="Slide 2"
+            ></button>
 
-</div>
+            <button
+                class="fleet-dot"
+                type="button"
+                aria-label="Slide 3"
+            ></button>
+
+            <button
+                class="fleet-dot"
+                type="button"
+                aria-label="Slide 4"
+            ></button>
+
+        </div>
 
     </div>
 
@@ -826,7 +842,7 @@
 
             <span class="btn-wa-icon">
 
-                <svg viewBox="0 0 24 24">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
                     <path
                         d="M20.5 3.5A11.8 11.8 0 0 0 12.1 0C5.6 0 .3 5.3.3 11.8c0 2.1.5 4.1 1.6 5.9L.2 24l6.5-1.7c1.7.9 3.5 1.3 5.4 1.3h.1c6.5 0 11.8-5.3 11.8-11.8 0-3.1-1.2-6.1-3.5-8.3ZM12.1 21.5c-1.7 0-3.4-.5-4.8-1.3l-.3-.2-3.8 1 1-3.7-.2-.4a9.6 9.6 0 0 1-1.5-5.1c0-5.3 4.3-9.6 9.6-9.6 2.6 0 5 1 6.8 2.8 1.8 1.8 2.8 4.2 2.8 6.8-.1 5.3-4.4 9.7-9.6 9.7Zm5.3-7.2c-.3-.2-1.8-.9-2.1-1-.3-.1-.5-.2-.7.2-.2.3-.8 1-.9 1.2-.2.2-.3.2-.6.1-1.6-.8-2.7-1.4-3.8-3.2-.3-.5.3-.5.8-1.7.1-.2.1-.4 0-.6-.1-.2-.7-1.7-1-2.3-.3-.6-.5-.5-.7-.5h-.6c-.2 0-.6.1-.9.4-.3.3-1.1 1.1-1.1 2.6 0 1.5 1.1 3 1.2 3.2.1.2 2.2 3.4 5.4 4.8 2 .9 2.7 1 3.7.8.6-.1 1.8-.7 2-1.4.2-.7.2-1.3.1-1.4 0-.2-.2-.3-.5-.4Z"
                     />
@@ -952,9 +968,13 @@
 
         <div class="faq-list">
 
+
             <div class="faq-item">
 
-                <button class="faq-question">
+                <button
+                    class="faq-question"
+                    type="button"
+                >
 
                     <span>
                         Apakah layanan tersedia 24 jam?
@@ -980,7 +1000,10 @@
 
             <div class="faq-item">
 
-                <button class="faq-question">
+                <button
+                    class="faq-question"
+                    type="button"
+                >
 
                     <span>
                         Apakah bisa antar pasien ke luar kota?
@@ -1006,7 +1029,10 @@
 
             <div class="faq-item">
 
-                <button class="faq-question">
+                <button
+                    class="faq-question"
+                    type="button"
+                >
 
                     <span>
                         Bagaimana cara memesan ambulans?
@@ -1032,7 +1058,10 @@
 
             <div class="faq-item">
 
-                <button class="faq-question">
+                <button
+                    class="faq-question"
+                    type="button"
+                >
 
                     <span>
                         Apakah bisa untuk standby event?
@@ -1055,6 +1084,7 @@
 
             </div>
 
+
         </div>
 
     </div>
@@ -1069,6 +1099,9 @@
 <section class="section contact-section" id="kontak">
 
     <div class="container contact-container">
+
+
+        <!-- CONTACT INFO -->
 
         <div class="contact-info">
 
@@ -1089,6 +1122,7 @@
 
             <div class="contact-items">
 
+
                 <a
                     href="https://wa.me/6281219727254"
                     target="_blank"
@@ -1102,6 +1136,7 @@
 
                     <div>
                         <span>WhatsApp</span>
+
                         <strong>
                             +62 812-1972-7254
                         </strong>
@@ -1118,6 +1153,7 @@
 
                     <div>
                         <span>Area Layanan</span>
+
                         <strong>
                             Tangerang &amp; sekitarnya
                         </strong>
@@ -1134,6 +1170,7 @@
 
                     <div>
                         <span>Jam Layanan</span>
+
                         <strong>
                             24 Jam / sesuai ketersediaan
                         </strong>
@@ -1141,14 +1178,20 @@
 
                 </div>
 
+
             </div>
 
         </div>
 
 
+        <!-- ORDER FORM -->
+
         <div class="order-form-wrapper">
 
-            <form id="orderForm" class="order-form">
+            <form
+                id="orderForm"
+                class="order-form"
+            >
 
                 <h3>
                     Pesan Ambulans
@@ -1161,6 +1204,9 @@
 
                 <div class="form-grid">
 
+
+                    <!-- NAMA -->
+
                     <div class="form-group">
 
                         <label for="nama">
@@ -1172,11 +1218,14 @@
                             id="nama"
                             name="nama"
                             placeholder="Nama lengkap"
+                            autocomplete="name"
                             required
                         >
 
                     </div>
 
+
+                    <!-- TELEPON -->
 
                     <div class="form-group">
 
@@ -1189,11 +1238,14 @@
                             id="telepon"
                             name="telepon"
                             placeholder="08xxxxxxxxxx"
+                            autocomplete="tel"
                             required
                         >
 
                     </div>
 
+
+                    <!-- LOKASI -->
 
                     <div class="form-group">
 
@@ -1212,6 +1264,8 @@
                     </div>
 
 
+                    <!-- TUJUAN -->
+
                     <div class="form-group">
 
                         <label for="tujuan">
@@ -1229,6 +1283,8 @@
                     </div>
 
 
+                    <!-- LAYANAN -->
+
                     <div class="form-group">
 
                         <label for="layanan-select">
@@ -1245,27 +1301,27 @@
                                 Pilih layanan
                             </option>
 
-                            <option>
+                            <option value="Ambulans Pasien">
                                 Ambulans Pasien
                             </option>
 
-                            <option>
+                            <option value="Antar Rumah Sakit">
                                 Antar Rumah Sakit
                             </option>
 
-                            <option>
+                            <option value="Transportasi Jenazah">
                                 Transportasi Jenazah
                             </option>
 
-                            <option>
+                            <option value="Antar Luar Kota">
                                 Antar Luar Kota
                             </option>
 
-                            <option>
+                            <option value="Antar Luar Negeri">
                                 Antar Luar Negeri
                             </option>
 
-                            <option>
+                            <option value="Standby Event">
                                 Standby Event
                             </option>
 
@@ -1273,6 +1329,8 @@
 
                     </div>
 
+
+                    <!-- TANGGAL -->
 
                     <div class="form-group">
 
@@ -1290,6 +1348,8 @@
                     </div>
 
 
+                    <!-- JAM -->
+
                     <div class="form-group">
 
                         <label for="jam">
@@ -1306,6 +1366,8 @@
                     </div>
 
 
+                    <!-- CATATAN -->
+
                     <div class="form-group full">
 
                         <label for="catatan">
@@ -1321,8 +1383,11 @@
 
                     </div>
 
+
                 </div>
 
+
+                <!-- SUBMIT -->
 
                 <button
                     type="submit"
@@ -1331,7 +1396,7 @@
 
                     <span class="btn-wa-icon">
 
-                        <svg viewBox="0 0 24 24">
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
                             <path
                                 d="M20.5 3.5A11.8 11.8 0 0 0 12.1 0C5.6 0 .3 5.3.3 11.8c0 2.1.5 4.1 1.6 5.9L.2 24l6.5-1.7c1.7.9 3.5 1.3 5.4 1.3h.1c6.5 0 11.8-5.3 11.8-11.8 0-3.1-1.2-6.1-3.5-8.3ZM12.1 21.5c-1.7 0-3.4-.5-4.8-1.3l-.3-.2-3.8 1 1-3.7-.2-.4a9.6 9.6 0 0 1-1.5-5.1c0-5.3 4.3-9.6 9.6-9.6 2.6 0 5 1 6.8 2.8 1.8 1.8 2.8 4.2 2.8 6.8-.1 5.3-4.4 9.7-9.6 9.7Zm5.3-7.2c-.3-.2-1.8-.9-2.1-1-.3-.1-.5-.2-.7.2-.2.3-.8 1-.9 1.2-.2.2-.3.2-.6.1-1.6-.8-2.7-1.4-3.8-3.2-.3-.5.3-.5.8-1.7.1-.2.1-.4 0-.6-.1-.2-.7-1.7-1-2.3-.3-.6-.5-.5-.7-.5h-.6c-.2 0-.6.1-.9.4-.3.3-1.1 1.1-1.1 2.6 0 1.5 1.1 3 1.2 3.2.1.2 2.2 3.4 5.4 4.8 2 .9 2.7 1 3.7.8.6-.1 1.8-.7 2-1.4.2-.7.2-1.3.1-1.4 0-.2-.2-.3-.5-.4Z"
                             />
@@ -1362,9 +1427,13 @@
 
     <div class="container footer-container">
 
+
         <div>
 
-            <a href="#beranda" class="logo footer-logo">
+            <a
+                href="#beranda"
+                class="logo footer-logo"
+            >
 
                 <span class="logo-icon">
                     <span class="logo-cross"></span>
@@ -1383,6 +1452,8 @@
 
         </div>
 
+
+        <!-- NAVIGASI -->
 
         <div class="footer-links">
 
@@ -1408,6 +1479,8 @@
 
         </div>
 
+
+        <!-- HUBUNGI -->
 
         <div class="footer-links">
 
@@ -1484,348 +1557,25 @@
 </a>
 
 
-<!-- BACK TO TOP -->
+<!-- =========================================================
+     BACK TO TOP
+========================================================= -->
 
 <button
     class="back-to-top"
     id="backToTop"
+    type="button"
     aria-label="Kembali ke atas"
 >
     ↑
 </button>
 
 
+<!-- =========================================================
+     JAVASCRIPT
+========================================================= -->
+
 <script src="script.js"></script>
-
-/* =====================================================
-   FLEET SLIDER
-===================================================== */
-
-document.addEventListener("DOMContentLoaded", function () {
-
-    const track = document.querySelector(".fleet-track");
-    const cards = document.querySelectorAll(".fleet-track .fleet-card");
-    const prevButton = document.querySelector(".fleet-prev");
-    const nextButton = document.querySelector(".fleet-next");
-    const dots = document.querySelectorAll(".fleet-dot");
-
-    if (!track || cards.length === 0) {
-        return;
-    }
-
-    let currentIndex = 0;
-
-
-    /* ==========================================
-       JUMLAH SLIDE SESUAI DEVICE
-    ========================================== */
-
-    function getSlidesPerView() {
-
-        if (window.innerWidth <= 768) {
-            return 1;
-        }
-
-        if (window.innerWidth <= 992) {
-            return 2;
-        }
-
-        return 3;
-    }
-
-
-    /* ==========================================
-       JUMLAH POSISI SLIDER
-    ========================================== */
-
-    function getMaxIndex() {
-
-        const slidesPerView = getSlidesPerView();
-
-        return Math.max(
-            0,
-            cards.length - slidesPerView
-        );
-    }
-
-
-    /* ==========================================
-       UPDATE SLIDER
-    ========================================== */
-
-    function updateSlider() {
-
-        const slidesPerView = getSlidesPerView();
-
-        const maxIndex = getMaxIndex();
-
-        /*
-           Pastikan index tidak melebihi
-           jumlah slide yang tersedia.
-        */
-
-        if (currentIndex > maxIndex) {
-            currentIndex = maxIndex;
-        }
-
-        if (currentIndex < 0) {
-            currentIndex = 0;
-        }
-
-
-        /* ======================================
-           MOBILE
-           1 CARD = 1 SLIDE
-        ====================================== */
-
-        if (slidesPerView === 1) {
-
-            track.style.transform =
-                `translateX(-${currentIndex * 100}%)`;
-
-        }
-
-
-        /* ======================================
-           TABLET
-           2 CARD
-        ====================================== */
-
-        else if (slidesPerView === 2) {
-
-            const cardWidth =
-                cards[0].getBoundingClientRect().width;
-
-            const gap = 20;
-
-            const moveDistance =
-                cardWidth + gap;
-
-            track.style.transform =
-                `translateX(-${currentIndex * moveDistance}px)`;
-
-        }
-
-
-        /* ======================================
-           DESKTOP
-           3 CARD
-        ====================================== */
-
-        else {
-
-            const cardWidth =
-                cards[0].getBoundingClientRect().width;
-
-            const gap = 24;
-
-            const moveDistance =
-                cardWidth + gap;
-
-            track.style.transform =
-                `translateX(-${currentIndex * moveDistance}px)`;
-
-        }
-
-
-        /* ======================================
-           UPDATE DOT
-        ====================================== */
-
-        dots.forEach(function (dot, index) {
-
-            dot.classList.toggle(
-                "active",
-                index === currentIndex
-            );
-
-        });
-
-
-        /* ======================================
-           BUTTON STATE
-        ====================================== */
-
-        if (prevButton) {
-
-            prevButton.disabled =
-                currentIndex === 0;
-
-        }
-
-        if (nextButton) {
-
-            nextButton.disabled =
-                currentIndex === maxIndex;
-
-        }
-
-    }
-
-
-    /* ==========================================
-       NEXT
-    ========================================== */
-
-    if (nextButton) {
-
-        nextButton.addEventListener("click", function () {
-
-            const maxIndex = getMaxIndex();
-
-            if (currentIndex < maxIndex) {
-
-                currentIndex++;
-
-                updateSlider();
-
-            }
-
-        });
-
-    }
-
-
-    /* ==========================================
-       PREVIOUS
-    ========================================== */
-
-    if (prevButton) {
-
-        prevButton.addEventListener("click", function () {
-
-            if (currentIndex > 0) {
-
-                currentIndex--;
-
-                updateSlider();
-
-            }
-
-        });
-
-    }
-
-
-    /* ==========================================
-       DOT CLICK
-    ========================================== */
-
-    dots.forEach(function (dot, index) {
-
-        dot.addEventListener("click", function () {
-
-            const maxIndex = getMaxIndex();
-
-            currentIndex =
-                Math.min(index, maxIndex);
-
-            updateSlider();
-
-        });
-
-    });
-
-
-    /* ==========================================
-       RESIZE
-    ========================================== */
-
-    window.addEventListener("resize", function () {
-
-        updateSlider();
-
-    });
-
-
-    /* ==========================================
-       TOUCH / SWIPE HP
-    ========================================== */
-
-    let touchStartX = 0;
-    let touchEndX = 0;
-
-    track.addEventListener(
-        "touchstart",
-        function (event) {
-
-            touchStartX =
-                event.touches[0].clientX;
-
-        },
-        { passive: true }
-    );
-
-
-    track.addEventListener(
-        "touchend",
-        function (event) {
-
-            touchEndX =
-                event.changedTouches[0].clientX;
-
-            handleSwipe();
-
-        },
-        { passive: true }
-    );
-
-
-    function handleSwipe() {
-
-        /*
-           Swipe hanya aktif di HP.
-        */
-
-        if (window.innerWidth > 768) {
-            return;
-        }
-
-        const swipeDistance =
-            touchEndX - touchStartX;
-
-
-        /* Swipe kiri */
-
-        if (swipeDistance < -50) {
-
-            const maxIndex = getMaxIndex();
-
-            if (currentIndex < maxIndex) {
-
-                currentIndex++;
-
-                updateSlider();
-
-            }
-
-        }
-
-
-        /* Swipe kanan */
-
-        if (swipeDistance > 50) {
-
-            if (currentIndex > 0) {
-
-                currentIndex--;
-
-                updateSlider();
-
-            }
-
-        }
-
-    }
-
-
-    /* ==========================================
-       INITIALIZE
-    ========================================== */
-
-    updateSlider();
-
-});
 
 </body>
 </html>

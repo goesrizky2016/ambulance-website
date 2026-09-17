@@ -1,731 +1,1003 @@
-/* =========================================================
-   MOBILE MENU
-========================================================= */
 
-const mobileMenuButton =
-    document.getElementById("mobileMenuButton");
+document.addEventListener("DOMContentLoaded", function () {
 
-const mainNav =
-    document.getElementById("mainNav");
+    /* =========================================================
+       MOBILE MENU
+    ========================================================= */
 
+    const mobileMenuButton =
+        document.getElementById("mobileMenuButton");
 
-if (mobileMenuButton && mainNav) {
-
-    mobileMenuButton.addEventListener("click", () => {
-
-        const isOpen =
-            mainNav.classList.toggle("open");
-
-        mobileMenuButton.setAttribute(
-            "aria-expanded",
-            isOpen
-        );
-
-    });
+    const mainNav =
+        document.getElementById("mainNav");
 
 
-    mainNav.querySelectorAll("a").forEach(link => {
+    if (mobileMenuButton && mainNav) {
 
-        link.addEventListener("click", () => {
+        mobileMenuButton.addEventListener("click", function () {
 
-            mainNav.classList.remove("open");
+            const isActive =
+                mainNav.classList.toggle("active");
+
+            mobileMenuButton.classList.toggle(
+                "active",
+                isActive
+            );
 
             mobileMenuButton.setAttribute(
                 "aria-expanded",
-                "false"
+                isActive ? "true" : "false"
             );
 
         });
 
-    });
 
-}
-
-
-/* =========================================================
-   FAQ
-========================================================= */
-
-const faqQuestions =
-    document.querySelectorAll(".faq-question");
+        const navLinksMobile =
+            mainNav.querySelectorAll("a");
 
 
-faqQuestions.forEach(question => {
+        navLinksMobile.forEach(function (link) {
 
-    question.addEventListener("click", () => {
+            link.addEventListener("click", function () {
 
-        const currentItem =
-            question.closest(".faq-item");
+                mainNav.classList.remove("active");
 
-        const isOpen =
-            currentItem.classList.contains("open");
+                mobileMenuButton.classList.remove("active");
 
-
-        document
-            .querySelectorAll(".faq-item")
-            .forEach(item => {
-
-                item.classList.remove("open");
-
-                const answer =
-                    item.querySelector(".faq-answer");
-
-                if (answer) {
-                    answer.style.maxHeight = null;
-                }
+                mobileMenuButton.setAttribute(
+                    "aria-expanded",
+                    "false"
+                );
 
             });
 
+        });
 
-        if (!isOpen) {
+    }
 
-            currentItem.classList.add("open");
+
+
+    /* =========================================================
+       FAQ
+    ========================================================= */
+
+    const faqQuestions =
+        document.querySelectorAll(".faq-question");
+
+
+    faqQuestions.forEach(function (question) {
+
+        question.addEventListener("click", function () {
+
+            const item =
+                question.closest(".faq-item");
+
+            if (!item) {
+                return;
+            }
+
 
             const answer =
-                currentItem.querySelector(".faq-answer");
+                item.querySelector(".faq-answer");
 
-            if (answer) {
+            if (!answer) {
+                return;
+            }
+
+
+            const isActive =
+                item.classList.contains("active");
+
+
+            /* Tutup FAQ lainnya */
+
+            document
+                .querySelectorAll(".faq-item")
+                .forEach(function (faqItem) {
+
+                    faqItem.classList.remove("active");
+
+                    const faqAnswer =
+                        faqItem.querySelector(".faq-answer");
+
+                    if (faqAnswer) {
+                        faqAnswer.style.maxHeight = null;
+                    }
+
+                });
+
+
+            /* Buka FAQ yang dipilih */
+
+            if (!isActive) {
+
+                item.classList.add("active");
 
                 answer.style.maxHeight =
                     answer.scrollHeight + "px";
 
             }
 
-        }
-
-    });
-
-});
-
-
-/* =========================================================
-   BACK TO TOP
-========================================================= */
-
-const backToTop =
-    document.getElementById("backToTop");
-
-
-if (backToTop) {
-
-    window.addEventListener("scroll", () => {
-
-        if (window.scrollY > 500) {
-
-            backToTop.classList.add("show");
-
-        } else {
-
-            backToTop.classList.remove("show");
-
-        }
-
-    });
-
-
-    backToTop.addEventListener("click", () => {
-
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth"
         });
 
     });
 
-}
 
 
-/* =========================================================
-   ORDER FORM -> WHATSAPP
-========================================================= */
+    /* =========================================================
+       BACK TO TOP
+    ========================================================= */
 
-const orderForm =
-    document.getElementById("orderForm");
-
-
-if (orderForm) {
-
-    orderForm.addEventListener("submit", function(event) {
-
-        event.preventDefault();
+    const backToTop =
+        document.getElementById("backToTop");
 
 
-        const nama =
-            document.getElementById("nama").value.trim();
+    if (backToTop) {
 
-        const telepon =
-            document.getElementById("telepon").value.trim();
+        window.addEventListener("scroll", function () {
 
-        const lokasi =
-            document.getElementById("lokasi").value.trim();
+            if (window.scrollY > 400) {
 
-        const tujuan =
-            document.getElementById("tujuan").value.trim();
+                backToTop.classList.add("show");
 
-        const layanan =
-            document.getElementById("layanan-select").value;
+            } else {
 
-        const tanggal =
-            document.getElementById("tanggal").value;
+                backToTop.classList.remove("show");
 
-        const jam =
-            document.getElementById("jam").value;
+            }
 
-        const catatan =
-            document.getElementById("catatan").value.trim();
+        });
 
 
-        const message =
+        backToTop.addEventListener("click", function () {
 
-`Halo Ambulance Care,
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
 
-Saya ingin memesan layanan ambulans.
+        });
 
-Nama: ${nama}
-No. WhatsApp: ${telepon}
-Lokasi Jemput: ${lokasi}
-Tujuan: ${tujuan}
-Layanan: ${layanan}
-Tanggal: ${tanggal}
-Jam: ${jam}
-
-Catatan:
-${catatan || "-"}
-
-Mohon informasi ketersediaan dan estimasi biaya. Terima kasih.`;
+    }
 
 
-        const whatsappNumber =
-            "6281219727254";
+
+    /* =========================================================
+       ORDER FORM -> WHATSAPP
+    ========================================================= */
+
+    const orderForm =
+        document.getElementById("orderForm");
 
 
-        const whatsappURL =
-            `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+    if (orderForm) {
+
+        orderForm.addEventListener(
+            "submit",
+            function (event) {
+
+                event.preventDefault();
 
 
-        window.open(
-            whatsappURL,
-            "_blank",
-            "noopener"
-        );
+                /*
+                 * ID DISESUAIKAN DENGAN HTML
+                 */
 
-    });
+                const nameInput =
+                    document.getElementById("nama");
 
-}
+                const phoneInput =
+                    document.getElementById("telepon");
 
+                const serviceInput =
+                    document.getElementById("layanan-select");
 
-/* =========================================================
-   ACTIVE NAVIGATION
-========================================================= */
+                const dateInput =
+                    document.getElementById("tanggal");
 
-const sections =
-    document.querySelectorAll("main section[id]");
+                const locationInput =
+                    document.getElementById("lokasi");
 
-const navLinks =
-    document.querySelectorAll(
-        '.main-nav a[href^="#"]'
-    );
+                const destinationInput =
+                    document.getElementById("tujuan");
 
-
-function updateActiveNavigation() {
-
-    const scrollPosition =
-        window.scrollY + 150;
+                const messageInput =
+                    document.getElementById("catatan");
 
 
-    sections.forEach(section => {
+                const name =
+                    nameInput
+                        ? nameInput.value.trim()
+                        : "";
 
-        const sectionTop =
-            section.offsetTop;
+                const phone =
+                    phoneInput
+                        ? phoneInput.value.trim()
+                        : "";
 
-        const sectionBottom =
-            sectionTop + section.offsetHeight;
+                const service =
+                    serviceInput
+                        ? serviceInput.value.trim()
+                        : "";
 
-        const id =
-            section.getAttribute("id");
+                const date =
+                    dateInput
+                        ? dateInput.value.trim()
+                        : "";
+
+                const location =
+                    locationInput
+                        ? locationInput.value.trim()
+                        : "";
+
+                const destination =
+                    destinationInput
+                        ? destinationInput.value.trim()
+                        : "";
+
+                const message =
+                    messageInput
+                        ? messageInput.value.trim()
+                        : "";
 
 
-        if (
-            scrollPosition >= sectionTop &&
-            scrollPosition < sectionBottom
-        ) {
+                const whatsappNumber =
+                    "6281219727254";
 
-            navLinks.forEach(link => {
 
-                link.classList.remove("active");
+                let whatsappMessage =
+                    "Halo Ambulance Care,\n\n" +
+                    "Saya ingin melakukan pemesanan layanan ambulans.\n\n" +
+                    "Nama: " + name + "\n" +
+                    "No. WhatsApp: " + phone + "\n" +
+                    "Layanan: " + service + "\n" +
+                    "Tanggal: " + date + "\n" +
+                    "Lokasi Jemput: " + location + "\n" +
+                    "Tujuan: " + destination;
 
-                if (
-                    link.getAttribute("href") ===
-                    `#${id}`
-                ) {
 
-                    link.classList.add("active");
+                if (message) {
+
+                    whatsappMessage +=
+                        "\n\nCatatan:\n" +
+                        message;
 
                 }
 
-            });
 
-        }
-
-    });
-
-}
-
-
-window.addEventListener(
-    "scroll",
-    updateActiveNavigation
-);
+                const whatsappURL =
+                    "https://wa.me/" +
+                    whatsappNumber +
+                    "?text=" +
+                    encodeURIComponent(whatsappMessage);
 
 
-/* =========================================================
-   HERO IMAGE ERROR HANDLER
-========================================================= */
+                window.open(
+                    whatsappURL,
+                    "_blank"
+                );
 
-const heroImage =
-    document.querySelector(".hero-ambulance");
-
-
-if (heroImage) {
-
-    heroImage.addEventListener("error", () => {
-
-        console.warn(
-            "Gambar ambulance tidak ditemukan. Pastikan file berada di images/ambulan1.png"
+            }
         );
 
-    });
-
-}
-
-
-/* =========================================================
-   FLEET / ARMADA SLIDER
-========================================================= */
-
-document.addEventListener("DOMContentLoaded", function () {
-
-    const slider =
-        document.querySelector(".fleet-slider");
-
-    const track =
-        document.querySelector(".fleet-track");
-
-    const cards =
-        document.querySelectorAll(".fleet-card");
-
-    const prevButton =
-        document.querySelector(".fleet-prev");
-
-    const nextButton =
-        document.querySelector(".fleet-next");
-
-    const dots =
-        document.querySelectorAll(".fleet-dot");
-
-
-    /* ---------------------------------------------------------
-       CEK ELEMENT
-    --------------------------------------------------------- */
-
-    if (
-        !slider ||
-        !track ||
-        cards.length === 0
-    ) {
-        return;
     }
 
 
-    let currentIndex = 0;
 
-    let touchStartX = 0;
-    let touchEndX = 0;
+    /* =========================================================
+       ACTIVE NAVIGATION
+    ========================================================= */
 
-
-    /* ---------------------------------------------------------
-       JUMLAH CARD PER VIEW
-    --------------------------------------------------------- */
-
-    function getSlidesPerView() {
-
-        const width =
-            window.innerWidth;
-
-
-        // HP
-        if (width <= 768) {
-            return 1;
-        }
-
-
-        // TABLET
-        if (width <= 1024) {
-            return 2;
-        }
-
-
-        // DESKTOP
-        return 3;
-    }
-
-
-    /* ---------------------------------------------------------
-       JUMLAH POSISI SLIDER
-    --------------------------------------------------------- */
-
-    function getMaxIndex() {
-
-        const slidesPerView =
-            getSlidesPerView();
-
-
-        return Math.max(
-            0,
-            cards.length - slidesPerView
+    const sections =
+        document.querySelectorAll(
+            "main section[id]"
         );
-    }
 
 
-    /* ---------------------------------------------------------
-       UPDATE SLIDER
-    --------------------------------------------------------- */
-
-    function updateSlider() {
-
-        const slidesPerView =
-            getSlidesPerView();
+    const navLinks =
+        document.querySelectorAll(
+            '.main-nav a[href^="#"]'
+        );
 
 
-        const maxIndex =
-            getMaxIndex();
+    function updateActiveNavigation() {
+
+        let currentSection = "";
 
 
-        /* Pastikan index aman */
+        sections.forEach(function (section) {
 
-        if (currentIndex < 0) {
-            currentIndex = 0;
-        }
+            const sectionTop =
+                section.offsetTop - 150;
 
-
-        if (currentIndex > maxIndex) {
-            currentIndex = maxIndex;
-        }
+            const sectionHeight =
+                section.offsetHeight;
 
 
-        /* =====================================================
-           HP
-           1 CARD PER SLIDE
-        ===================================================== */
+            if (
+                window.scrollY >= sectionTop &&
+                window.scrollY <
+                    sectionTop + sectionHeight
+            ) {
 
-        if (slidesPerView === 1) {
+                currentSection =
+                    section.getAttribute("id");
 
-            const sliderWidth =
-                slider.clientWidth;
-
-
-            track.style.transform =
-                `translate3d(-${currentIndex * sliderWidth}px, 0, 0)`;
-
-        }
-
-
-        /* =====================================================
-           TABLET / DESKTOP
-        ===================================================== */
-
-        else {
-
-            const cardWidth =
-                cards[0].getBoundingClientRect().width;
-
-
-            const style =
-                window.getComputedStyle(track);
-
-
-            const gap =
-                parseFloat(style.gap) || 0;
-
-
-            const moveDistance =
-                cardWidth + gap;
-
-
-            track.style.transform =
-                `translate3d(-${currentIndex * moveDistance}px, 0, 0)`;
-
-        }
-
-
-        /* =====================================================
-           DOT
-        ===================================================== */
-
-        dots.forEach(function (dot, index) {
-
-            dot.classList.toggle(
-                "active",
-                index === currentIndex
-            );
+            }
 
         });
 
 
+        navLinks.forEach(function (link) {
+
+            link.classList.remove("active");
+
+
+            const href =
+                link.getAttribute("href");
+
+
+            if (
+                href === "#" + currentSection
+            ) {
+
+                link.classList.add("active");
+
+            }
+
+        });
+
+    }
+
+
+    window.addEventListener(
+        "scroll",
+        updateActiveNavigation
+    );
+
+
+    updateActiveNavigation();
+
+
+
+    /* =========================================================
+       HERO IMAGE ERROR HANDLER
+    ========================================================= */
+
+    const heroImage =
+        document.querySelector(
+            ".hero-ambulance"
+        );
+
+
+    if (heroImage) {
+
+        heroImage.addEventListener(
+            "error",
+            function () {
+
+                console.warn(
+                    "Gambar hero ambulance tidak ditemukan."
+                );
+
+            }
+        );
+
+    }
+
+
+
+    /* =========================================================
+       FLEET SLIDER
+    ========================================================= */
+
+    const fleetSlider =
+        document.querySelector(
+            ".fleet-slider"
+        );
+
+    const fleetTrack =
+        document.querySelector(
+            ".fleet-track"
+        );
+
+    const fleetCards =
+        document.querySelectorAll(
+            ".fleet-card"
+        );
+
+    const fleetPrev =
+        document.querySelector(
+            ".fleet-prev"
+        );
+
+    const fleetNext =
+        document.querySelector(
+            ".fleet-next"
+        );
+
+    const fleetDots =
+        document.querySelectorAll(
+            ".fleet-dot"
+        );
+
+
+    /*
+     * Kalau slider tidak ada,
+     * jangan hentikan script lainnya.
+     */
+
+    if (
+        fleetSlider &&
+        fleetTrack &&
+        fleetCards.length > 0
+    ) {
+
+        let fleetCurrentIndex = 0;
+
+
         /* =====================================================
-           PREVIOUS BUTTON
+           JUMLAH CARD PER VIEW
         ===================================================== */
 
-        if (prevButton) {
+        function getFleetSlidesPerView() {
 
-            prevButton.disabled =
-                currentIndex === 0;
+            const width =
+                window.innerWidth;
+
+
+            /* HP */
+
+            if (width <= 768) {
+                return 1;
+            }
+
+
+            /* Tablet */
+
+            if (width <= 992) {
+                return 2;
+            }
+
+
+            /* Desktop */
+
+            return 3;
 
         }
+
+
+
+        /* =====================================================
+           MAX INDEX
+        ===================================================== */
+
+        function getFleetMaxIndex() {
+
+            const slidesPerView =
+                getFleetSlidesPerView();
+
+
+            return Math.max(
+                0,
+                fleetCards.length -
+                    slidesPerView
+            );
+
+        }
+
+
+
+        /* =====================================================
+           HITUNG GAP
+        ===================================================== */
+
+        function getFleetGap() {
+
+            const style =
+                window.getComputedStyle(
+                    fleetTrack
+                );
+
+
+            const gap =
+                parseFloat(style.gap);
+
+
+            if (!isNaN(gap)) {
+                return gap;
+            }
+
+
+            return 0;
+
+        }
+
+
+
+        /* =====================================================
+           UPDATE SLIDER
+        ===================================================== */
+
+        function updateFleetSlider() {
+
+            const slidesPerView =
+                getFleetSlidesPerView();
+
+
+            const maxIndex =
+                getFleetMaxIndex();
+
+
+            /* Pastikan index aman */
+
+            if (
+                fleetCurrentIndex >
+                maxIndex
+            ) {
+
+                fleetCurrentIndex =
+                    maxIndex;
+
+            }
+
+
+            if (
+                fleetCurrentIndex < 0
+            ) {
+
+                fleetCurrentIndex = 0;
+
+            }
+
+
+
+            /* =================================================
+               MOBILE
+               1 CARD = 1 SLIDE
+            ================================================= */
+
+            if (slidesPerView === 1) {
+
+                fleetTrack.style.transform =
+                    "translate3d(" +
+                    (-fleetCurrentIndex * 100) +
+                    "%, 0, 0)";
+
+            }
+
+
+            /* =================================================
+               TABLET / DESKTOP
+            ================================================= */
+
+            else {
+
+                const cardWidth =
+                    fleetCards[0]
+                        .getBoundingClientRect()
+                        .width;
+
+
+                const gap =
+                    getFleetGap();
+
+
+                const moveDistance =
+                    cardWidth + gap;
+
+
+                fleetTrack.style.transform =
+                    "translate3d(" +
+                    (
+                        -fleetCurrentIndex *
+                        moveDistance
+                    ) +
+                    "px, 0, 0)";
+
+            }
+
+
+
+            /* =================================================
+               DOT
+            ================================================= */
+
+            fleetDots.forEach(
+                function (dot, index) {
+
+                    const visible =
+                        index <= maxIndex;
+
+
+                    dot.style.display =
+                        visible
+                            ? ""
+                            : "none";
+
+
+                    dot.classList.toggle(
+                        "active",
+                        index ===
+                            fleetCurrentIndex
+                    );
+
+                }
+            );
+
+
+
+            /* =================================================
+               PREVIOUS
+            ================================================= */
+
+            if (fleetPrev) {
+
+                fleetPrev.disabled =
+                    fleetCurrentIndex === 0;
+
+            }
+
+
+
+            /* =================================================
+               NEXT
+            ================================================= */
+
+            if (fleetNext) {
+
+                fleetNext.disabled =
+                    fleetCurrentIndex ===
+                    maxIndex;
+
+            }
+
+        }
+
 
 
         /* =====================================================
            NEXT BUTTON
         ===================================================== */
 
-        if (nextButton) {
+        if (fleetNext) {
 
-            nextButton.disabled =
-                currentIndex === maxIndex;
+            fleetNext.addEventListener(
+                "click",
+                function () {
+
+                    const maxIndex =
+                        getFleetMaxIndex();
+
+
+                    if (
+                        fleetCurrentIndex <
+                        maxIndex
+                    ) {
+
+                        fleetCurrentIndex++;
+
+                        updateFleetSlider();
+
+                    }
+
+                }
+            );
 
         }
 
-    }
 
 
-    /* =========================================================
-       NEXT
-    ========================================================= */
+        /* =====================================================
+           PREVIOUS BUTTON
+        ===================================================== */
 
-    if (nextButton) {
+        if (fleetPrev) {
 
-        nextButton.addEventListener(
-            "click",
-            function () {
+            fleetPrev.addEventListener(
+                "click",
+                function () {
 
-                const maxIndex =
-                    getMaxIndex();
+                    if (
+                        fleetCurrentIndex > 0
+                    ) {
 
+                        fleetCurrentIndex--;
+
+                        updateFleetSlider();
+
+                    }
+
+                }
+            );
+
+        }
+
+
+
+        /* =====================================================
+           DOT BUTTON
+        ===================================================== */
+
+        fleetDots.forEach(
+            function (dot, index) {
+
+                dot.addEventListener(
+                    "click",
+                    function () {
+
+                        const maxIndex =
+                            getFleetMaxIndex();
+
+
+                        fleetCurrentIndex =
+                            Math.min(
+                                index,
+                                maxIndex
+                            );
+
+
+                        updateFleetSlider();
+
+                    }
+                );
+
+            }
+        );
+
+
+
+        /* =====================================================
+           TOUCH SWIPE HP
+        ===================================================== */
+
+        let touchStartX = 0;
+        let touchStartY = 0;
+
+        let touchEndX = 0;
+        let touchEndY = 0;
+
+
+        fleetSlider.addEventListener(
+            "touchstart",
+            function (event) {
 
                 if (
-                    currentIndex <
-                    maxIndex
+                    !event.touches ||
+                    event.touches.length === 0
                 ) {
-
-                    currentIndex++;
-
-                    updateSlider();
-
+                    return;
                 }
 
+
+                touchStartX =
+                    event.touches[0].clientX;
+
+                touchStartY =
+                    event.touches[0].clientY;
+
+                touchEndX =
+                    touchStartX;
+
+                touchEndY =
+                    touchStartY;
+
+            },
+            {
+                passive: true
             }
         );
 
-    }
 
 
-    /* =========================================================
-       PREVIOUS
-    ========================================================= */
+        fleetSlider.addEventListener(
+            "touchmove",
+            function (event) {
 
-    if (prevButton) {
-
-        prevButton.addEventListener(
-            "click",
-            function () {
-
-                if (currentIndex > 0) {
-
-                    currentIndex--;
-
-                    updateSlider();
-
+                if (
+                    !event.touches ||
+                    event.touches.length === 0
+                ) {
+                    return;
                 }
 
+
+                touchEndX =
+                    event.touches[0].clientX;
+
+                touchEndY =
+                    event.touches[0].clientY;
+
+            },
+            {
+                passive: true
             }
         );
 
-    }
 
 
-    /* =========================================================
-       DOT CLICK
-    ========================================================= */
-
-    dots.forEach(function (dot, index) {
-
-        dot.addEventListener(
-            "click",
+        fleetSlider.addEventListener(
+            "touchend",
             function () {
 
-                const maxIndex =
-                    getMaxIndex();
+                handleFleetSwipe();
 
-
-                currentIndex =
-                    Math.min(
-                        index,
-                        maxIndex
-                    );
-
-
-                updateSlider();
-
+            },
+            {
+                passive: true
             }
         );
 
-    });
 
 
-    /* =========================================================
-       TOUCH START
-       DIPASANG PADA SLIDER, BUKAN TRACK
-    ========================================================= */
+        function handleFleetSwipe() {
 
-    slider.addEventListener(
-        "touchstart",
-        function (event) {
+            /*
+             * Hanya aktif untuk HP.
+             */
 
-            touchStartX =
-                event.touches[0].clientX;
-
-            touchEndX =
-                touchStartX;
-
-        },
-        {
-            passive: true
-        }
-    );
-
-
-    /* =========================================================
-       TOUCH MOVE
-    ========================================================= */
-
-    slider.addEventListener(
-        "touchmove",
-        function (event) {
-
-            touchEndX =
-                event.touches[0].clientX;
-
-        },
-        {
-            passive: true
-        }
-    );
-
-
-    /* =========================================================
-       TOUCH END
-    ========================================================= */
-
-    slider.addEventListener(
-        "touchend",
-        function () {
-
-            if (window.innerWidth > 768) {
+            if (
+                window.innerWidth > 768
+            ) {
                 return;
             }
 
 
-            const swipeDistance =
-                touchEndX - touchStartX;
+            const deltaX =
+                touchEndX -
+                touchStartX;
 
 
-            /* ---------------------------------------------
+            const deltaY =
+                touchEndY -
+                touchStartY;
+
+
+            /*
+             * Kalau gerakan lebih banyak
+             * ke atas/bawah, anggap sebagai
+             * scroll halaman biasa.
+             */
+
+            if (
+                Math.abs(deltaY) >
+                Math.abs(deltaX)
+            ) {
+
+                return;
+
+            }
+
+
+            /*
+             * Jarak minimal swipe.
+             */
+
+            const minimumSwipe =
+                40;
+
+
+            if (
+                Math.abs(deltaX) <
+                minimumSwipe
+            ) {
+
+                return;
+
+            }
+
+
+
+            /* ================================================
                SWIPE KIRI
-            --------------------------------------------- */
+               ================================================ */
 
-            if (swipeDistance < -50) {
+            if (deltaX < 0) {
 
                 const maxIndex =
-                    getMaxIndex();
+                    getFleetMaxIndex();
 
 
                 if (
-                    currentIndex <
+                    fleetCurrentIndex <
                     maxIndex
                 ) {
 
-                    currentIndex++;
+                    fleetCurrentIndex++;
 
-                    updateSlider();
+                    updateFleetSlider();
 
                 }
 
             }
 
 
-            /* ---------------------------------------------
-               SWIPE KANAN
-            --------------------------------------------- */
 
-            else if (swipeDistance > 50) {
+            /* ================================================
+               SWIPE KANAN
+               ================================================ */
+
+            else {
 
                 if (
-                    currentIndex > 0
+                    fleetCurrentIndex > 0
                 ) {
 
-                    currentIndex--;
+                    fleetCurrentIndex--;
 
-                    updateSlider();
+                    updateFleetSlider();
 
                 }
 
             }
 
-
-            touchStartX = 0;
-            touchEndX = 0;
-
-        },
-        {
-            passive: true
         }
-    );
 
 
-    /* =========================================================
-       RESIZE
-    ========================================================= */
 
-    let resizeTimer;
+        /* =====================================================
+           RESIZE
+        ===================================================== */
 
-
-    window.addEventListener(
-        "resize",
-        function () {
-
-            clearTimeout(
-                resizeTimer
-            );
+        let fleetResizeTimer;
 
 
-            resizeTimer =
-                setTimeout(
-                    function () {
+        window.addEventListener(
+            "resize",
+            function () {
 
-                        updateSlider();
-
-                    },
-                    150
+                clearTimeout(
+                    fleetResizeTimer
                 );
 
-        }
-    );
+
+                fleetResizeTimer =
+                    setTimeout(
+                        function () {
+
+                            updateFleetSlider();
+
+                        },
+                        150
+                    );
+
+            }
+        );
 
 
-    /* =========================================================
-       INITIALIZE
-    ========================================================= */
 
-    updateSlider();
+        /* =====================================================
+           PREVENT IMAGE DRAG
+        ===================================================== */
+
+        fleetCards.forEach(
+            function (card) {
+
+                const image =
+                    card.querySelector("img");
+
+
+                if (image) {
+
+                    image.setAttribute(
+                        "draggable",
+                        "false"
+                    );
+
+                }
+
+            }
+        );
+
+
+
+        /* =====================================================
+           INITIALIZE
+        ===================================================== */
+
+        updateFleetSlider();
+
+    }
+
 
 });
