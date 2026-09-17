@@ -305,45 +305,46 @@ if (heroImage) {
 
 document.addEventListener("DOMContentLoaded", function () {
 
-    const fleetSlider =
+    const slider =
         document.querySelector(".fleet-slider");
 
-    const fleetTrack =
+    const track =
         document.querySelector(".fleet-track");
 
-    const fleetCards =
+    const cards =
         document.querySelectorAll(".fleet-card");
 
-    const fleetPrev =
+    const prevButton =
         document.querySelector(".fleet-prev");
 
-    const fleetNext =
+    const nextButton =
         document.querySelector(".fleet-next");
 
-    const fleetDots =
+    const dots =
         document.querySelectorAll(".fleet-dot");
 
 
     /* ---------------------------------------------------------
-       CEK ELEMENT SLIDER
+       CEK ELEMENT
     --------------------------------------------------------- */
 
     if (
-        !fleetSlider ||
-        !fleetTrack ||
-        fleetCards.length === 0
+        !slider ||
+        !track ||
+        cards.length === 0
     ) {
-
         return;
-
     }
 
 
     let currentIndex = 0;
 
+    let touchStartX = 0;
+    let touchEndX = 0;
+
 
     /* ---------------------------------------------------------
-       JUMLAH CARD YANG DITAMPILKAN
+       JUMLAH CARD PER VIEW
     --------------------------------------------------------- */
 
     function getSlidesPerView() {
@@ -354,28 +355,23 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // HP
         if (width <= 768) {
-
             return 1;
-
         }
 
 
         // TABLET
         if (width <= 1024) {
-
             return 2;
-
         }
 
 
         // DESKTOP
         return 3;
-
     }
 
 
     /* ---------------------------------------------------------
-       INDEX MAKSIMAL
+       JUMLAH POSISI SLIDER
     --------------------------------------------------------- */
 
     function getMaxIndex() {
@@ -386,9 +382,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
         return Math.max(
             0,
-            fleetCards.length - slidesPerView
+            cards.length - slidesPerView
         );
-
     }
 
 
@@ -396,7 +391,7 @@ document.addEventListener("DOMContentLoaded", function () {
        UPDATE SLIDER
     --------------------------------------------------------- */
 
-    function updateFleetSlider() {
+    function updateSlider() {
 
         const slidesPerView =
             getSlidesPerView();
@@ -406,74 +401,68 @@ document.addEventListener("DOMContentLoaded", function () {
             getMaxIndex();
 
 
-        /* -----------------------------------------------------
-           PASTIKAN INDEX TIDAK MELEBIHI BATAS
-        ----------------------------------------------------- */
+        /* Pastikan index aman */
 
-        currentIndex =
-            Math.min(
-                currentIndex,
-                maxIndex
-            );
+        if (currentIndex < 0) {
+            currentIndex = 0;
+        }
 
 
-        /* -----------------------------------------------------
-           DESKTOP & TABLET
-        ----------------------------------------------------- */
+        if (currentIndex > maxIndex) {
+            currentIndex = maxIndex;
+        }
 
-        if (slidesPerView > 1) {
+
+        /* =====================================================
+           HP
+           1 CARD PER SLIDE
+        ===================================================== */
+
+        if (slidesPerView === 1) {
+
+            const sliderWidth =
+                slider.clientWidth;
+
+
+            track.style.transform =
+                `translate3d(-${currentIndex * sliderWidth}px, 0, 0)`;
+
+        }
+
+
+        /* =====================================================
+           TABLET / DESKTOP
+        ===================================================== */
+
+        else {
 
             const cardWidth =
-                fleetCards[0].getBoundingClientRect().width;
+                cards[0].getBoundingClientRect().width;
 
 
-            const trackStyle =
-                window.getComputedStyle(
-                    fleetTrack
-                );
+            const style =
+                window.getComputedStyle(track);
 
 
             const gap =
-                parseFloat(
-                    trackStyle.columnGap
-                ) ||
-                parseFloat(
-                    trackStyle.gap
-                ) ||
-                0;
+                parseFloat(style.gap) || 0;
 
 
             const moveDistance =
                 cardWidth + gap;
 
 
-            fleetTrack.style.transform =
+            track.style.transform =
                 `translate3d(-${currentIndex * moveDistance}px, 0, 0)`;
 
         }
 
 
-        /* -----------------------------------------------------
-           MOBILE
-        ----------------------------------------------------- */
+        /* =====================================================
+           DOT
+        ===================================================== */
 
-        else {
-
-            const sliderWidth =
-                fleetSlider.clientWidth;
-
-
-            fleetTrack.style.transform =
-                `translate3d(-${currentIndex * sliderWidth}px, 0, 0)`;
-
-        }
-
-
-        /* -----------------------------------------------------
-           UPDATE DOT
-        --------------------------------------------------------- */
-
-        fleetDots.forEach((dot, index) => {
+        dots.forEach(function (dot, index) {
 
             dot.classList.toggle(
                 "active",
@@ -483,26 +472,26 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 
 
-        /* -----------------------------------------------------
-           BUTTON PREVIOUS
-        ----------------------------------------------------- */
+        /* =====================================================
+           PREVIOUS BUTTON
+        ===================================================== */
 
-        if (fleetPrev) {
+        if (prevButton) {
 
-            fleetPrev.disabled =
-                currentIndex <= 0;
+            prevButton.disabled =
+                currentIndex === 0;
 
         }
 
 
-        /* -----------------------------------------------------
-           BUTTON NEXT
-        ----------------------------------------------------- */
+        /* =====================================================
+           NEXT BUTTON
+        ===================================================== */
 
-        if (fleetNext) {
+        if (nextButton) {
 
-            fleetNext.disabled =
-                currentIndex >= maxIndex;
+            nextButton.disabled =
+                currentIndex === maxIndex;
 
         }
 
@@ -510,12 +499,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     /* =========================================================
-       NEXT BUTTON
+       NEXT
     ========================================================= */
 
-    if (fleetNext) {
+    if (nextButton) {
 
-        fleetNext.addEventListener(
+        nextButton.addEventListener(
             "click",
             function () {
 
@@ -530,7 +519,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     currentIndex++;
 
-                    updateFleetSlider();
+                    updateSlider();
 
                 }
 
@@ -541,22 +530,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     /* =========================================================
-       PREVIOUS BUTTON
+       PREVIOUS
     ========================================================= */
 
-    if (fleetPrev) {
+    if (prevButton) {
 
-        fleetPrev.addEventListener(
+        prevButton.addEventListener(
             "click",
             function () {
 
-                if (
-                    currentIndex > 0
-                ) {
+                if (currentIndex > 0) {
 
                     currentIndex--;
 
-                    updateFleetSlider();
+                    updateSlider();
 
                 }
 
@@ -567,10 +554,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     /* =========================================================
-       DOT NAVIGATION
+       DOT CLICK
     ========================================================= */
 
-    fleetDots.forEach((dot, index) => {
+    dots.forEach(function (dot, index) {
 
         dot.addEventListener(
             "click",
@@ -587,7 +574,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     );
 
 
-                updateFleetSlider();
+                updateSlider();
 
             }
         );
@@ -596,7 +583,117 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     /* =========================================================
-       RESPONSIVE RESIZE
+       TOUCH START
+       DIPASANG PADA SLIDER, BUKAN TRACK
+    ========================================================= */
+
+    slider.addEventListener(
+        "touchstart",
+        function (event) {
+
+            touchStartX =
+                event.touches[0].clientX;
+
+            touchEndX =
+                touchStartX;
+
+        },
+        {
+            passive: true
+        }
+    );
+
+
+    /* =========================================================
+       TOUCH MOVE
+    ========================================================= */
+
+    slider.addEventListener(
+        "touchmove",
+        function (event) {
+
+            touchEndX =
+                event.touches[0].clientX;
+
+        },
+        {
+            passive: true
+        }
+    );
+
+
+    /* =========================================================
+       TOUCH END
+    ========================================================= */
+
+    slider.addEventListener(
+        "touchend",
+        function () {
+
+            if (window.innerWidth > 768) {
+                return;
+            }
+
+
+            const swipeDistance =
+                touchEndX - touchStartX;
+
+
+            /* ---------------------------------------------
+               SWIPE KIRI
+            --------------------------------------------- */
+
+            if (swipeDistance < -50) {
+
+                const maxIndex =
+                    getMaxIndex();
+
+
+                if (
+                    currentIndex <
+                    maxIndex
+                ) {
+
+                    currentIndex++;
+
+                    updateSlider();
+
+                }
+
+            }
+
+
+            /* ---------------------------------------------
+               SWIPE KANAN
+            --------------------------------------------- */
+
+            else if (swipeDistance > 50) {
+
+                if (
+                    currentIndex > 0
+                ) {
+
+                    currentIndex--;
+
+                    updateSlider();
+
+                }
+
+            }
+
+
+            touchStartX = 0;
+            touchEndX = 0;
+
+        },
+        {
+            passive: true
+        }
+    );
+
+
+    /* =========================================================
+       RESIZE
     ========================================================= */
 
     let resizeTimer;
@@ -615,18 +712,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 setTimeout(
                     function () {
 
-                        const maxIndex =
-                            getMaxIndex();
-
-
-                        currentIndex =
-                            Math.min(
-                                currentIndex,
-                                maxIndex
-                            );
-
-
-                        updateFleetSlider();
+                        updateSlider();
 
                     },
                     150
@@ -637,92 +723,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     /* =========================================================
-       SWIPE UNTUK HP
+       INITIALIZE
     ========================================================= */
 
-    let touchStartX = 0;
-    let touchEndX = 0;
-
-
-    fleetSlider.addEventListener(
-        "touchstart",
-        function (event) {
-
-            touchStartX =
-                event.changedTouches[0].screenX;
-
-        },
-        {
-            passive: true
-        }
-    );
-
-
-    fleetSlider.addEventListener(
-        "touchend",
-        function (event) {
-
-            touchEndX =
-                event.changedTouches[0].screenX;
-
-
-            const difference =
-                touchStartX - touchEndX;
-
-
-            /* -------------------------------------------------
-               SWIPE KIRI
-            ------------------------------------------------- */
-
-            if (difference > 50) {
-
-                const maxIndex =
-                    getMaxIndex();
-
-
-                if (
-                    currentIndex <
-                    maxIndex
-                ) {
-
-                    currentIndex++;
-
-                    updateFleetSlider();
-
-                }
-
-            }
-
-
-            /* -------------------------------------------------
-               SWIPE KANAN
-            ------------------------------------------------- */
-
-            if (difference < -50) {
-
-                if (
-                    currentIndex > 0
-                ) {
-
-                    currentIndex--;
-
-                    updateFleetSlider();
-
-                }
-
-            }
-
-        },
-        {
-            passive: true
-        }
-    );
-
-
-    /* =========================================================
-       INITIALIZE SLIDER
-    ========================================================= */
-
-    updateFleetSlider();
+    updateSlider();
 
 });
