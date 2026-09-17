@@ -1497,114 +1497,140 @@
 
 <script src="script.js"></script>
 
-<script>
-
-/* =========================================================
-   ARMADA SLIDER
-========================================================= */
+/* =====================================================
+   FLEET SLIDER
+===================================================== */
 
 document.addEventListener("DOMContentLoaded", function () {
 
-
     const track = document.querySelector(".fleet-track");
+    const cards = document.querySelectorAll(".fleet-track .fleet-card");
+    const prevButton = document.querySelector(".fleet-prev");
+    const nextButton = document.querySelector(".fleet-next");
+    const dots = document.querySelectorAll(".fleet-dot");
 
-    const cards = document.querySelectorAll(".fleet-card");
-
-    const prevButton =
-        document.querySelector(".fleet-prev");
-
-    const nextButton =
-        document.querySelector(".fleet-next");
-
-    const dots =
-        document.querySelectorAll(".fleet-dot");
-
+    if (!track || cards.length === 0) {
+        return;
+    }
 
     let currentIndex = 0;
 
 
-    /* =====================================================
-       JUMLAH CARD YANG TAMPIL
-    ===================================================== */
+    /* ==========================================
+       JUMLAH SLIDE SESUAI DEVICE
+    ========================================== */
 
-    function getVisibleCards() {
+    function getSlidesPerView() {
 
         if (window.innerWidth <= 768) {
-
             return 1;
-
         }
-
 
         if (window.innerWidth <= 992) {
-
             return 2;
-
         }
 
-
         return 3;
-
     }
 
 
-    /* =====================================================
-       INDEX MAKSIMAL
-    ===================================================== */
+    /* ==========================================
+       JUMLAH POSISI SLIDER
+    ========================================== */
 
     function getMaxIndex() {
 
-        const visibleCards =
-            getVisibleCards();
-
+        const slidesPerView = getSlidesPerView();
 
         return Math.max(
             0,
-            cards.length - visibleCards
+            cards.length - slidesPerView
         );
-
     }
 
 
-    /* =====================================================
+    /* ==========================================
        UPDATE SLIDER
-    ===================================================== */
+    ========================================== */
 
     function updateSlider() {
 
+        const slidesPerView = getSlidesPerView();
 
-        if (!cards.length) {
+        const maxIndex = getMaxIndex();
 
-            return;
+        /*
+           Pastikan index tidak melebihi
+           jumlah slide yang tersedia.
+        */
+
+        if (currentIndex > maxIndex) {
+            currentIndex = maxIndex;
+        }
+
+        if (currentIndex < 0) {
+            currentIndex = 0;
+        }
+
+
+        /* ======================================
+           MOBILE
+           1 CARD = 1 SLIDE
+        ====================================== */
+
+        if (slidesPerView === 1) {
+
+            track.style.transform =
+                `translateX(-${currentIndex * 100}%)`;
 
         }
 
 
-        const cardWidth =
-            cards[0].getBoundingClientRect().width;
+        /* ======================================
+           TABLET
+           2 CARD
+        ====================================== */
+
+        else if (slidesPerView === 2) {
+
+            const cardWidth =
+                cards[0].getBoundingClientRect().width;
+
+            const gap = 20;
+
+            const moveDistance =
+                cardWidth + gap;
+
+            track.style.transform =
+                `translateX(-${currentIndex * moveDistance}px)`;
+
+        }
 
 
-        const trackStyle =
-            window.getComputedStyle(track);
+        /* ======================================
+           DESKTOP
+           3 CARD
+        ====================================== */
+
+        else {
+
+            const cardWidth =
+                cards[0].getBoundingClientRect().width;
+
+            const gap = 24;
+
+            const moveDistance =
+                cardWidth + gap;
+
+            track.style.transform =
+                `translateX(-${currentIndex * moveDistance}px)`;
+
+        }
 
 
-        const gap =
-            parseFloat(trackStyle.gap) || 0;
-
-
-        const moveDistance =
-            cardWidth + gap;
-
-
-        track.style.transform =
-            "translateX(-" +
-            (currentIndex * moveDistance) +
-            "px";
-
-
-        /* ================================================
+        /* ======================================
            UPDATE DOT
-        ================================================ */
+        ====================================== */
 
         dots.forEach(function (dot, index) {
 
@@ -1616,58 +1642,154 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 
 
-        /* ================================================
-           UPDATE PREVIOUS BUTTON
-        ================================================ */
+        /* ======================================
+           BUTTON STATE
+        ====================================== */
 
-        if (currentIndex === 0) {
+        if (prevButton) {
 
-            prevButton.disabled = true;
-
-            prevButton.style.opacity = "0.45";
-
-        } else {
-
-            prevButton.disabled = false;
-
-            prevButton.style.opacity = "1";
+            prevButton.disabled =
+                currentIndex === 0;
 
         }
 
+        if (nextButton) {
 
-        /* ================================================
-           UPDATE NEXT BUTTON
-        ================================================ */
-
-        if (currentIndex >= getMaxIndex()) {
-
-            nextButton.disabled = true;
-
-            nextButton.style.opacity = "0.45";
-
-        } else {
-
-            nextButton.disabled = false;
-
-            nextButton.style.opacity = "1";
+            nextButton.disabled =
+                currentIndex === maxIndex;
 
         }
 
     }
 
 
-    /* =====================================================
+    /* ==========================================
        NEXT
-    ===================================================== */
+    ========================================== */
 
-    nextButton.addEventListener(
-        "click",
-        function () {
+    if (nextButton) {
+
+        nextButton.addEventListener("click", function () {
+
+            const maxIndex = getMaxIndex();
+
+            if (currentIndex < maxIndex) {
+
+                currentIndex++;
+
+                updateSlider();
+
+            }
+
+        });
+
+    }
 
 
-            const maxIndex =
-                getMaxIndex();
+    /* ==========================================
+       PREVIOUS
+    ========================================== */
 
+    if (prevButton) {
+
+        prevButton.addEventListener("click", function () {
+
+            if (currentIndex > 0) {
+
+                currentIndex--;
+
+                updateSlider();
+
+            }
+
+        });
+
+    }
+
+
+    /* ==========================================
+       DOT CLICK
+    ========================================== */
+
+    dots.forEach(function (dot, index) {
+
+        dot.addEventListener("click", function () {
+
+            const maxIndex = getMaxIndex();
+
+            currentIndex =
+                Math.min(index, maxIndex);
+
+            updateSlider();
+
+        });
+
+    });
+
+
+    /* ==========================================
+       RESIZE
+    ========================================== */
+
+    window.addEventListener("resize", function () {
+
+        updateSlider();
+
+    });
+
+
+    /* ==========================================
+       TOUCH / SWIPE HP
+    ========================================== */
+
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    track.addEventListener(
+        "touchstart",
+        function (event) {
+
+            touchStartX =
+                event.touches[0].clientX;
+
+        },
+        { passive: true }
+    );
+
+
+    track.addEventListener(
+        "touchend",
+        function (event) {
+
+            touchEndX =
+                event.changedTouches[0].clientX;
+
+            handleSwipe();
+
+        },
+        { passive: true }
+    );
+
+
+    function handleSwipe() {
+
+        /*
+           Swipe hanya aktif di HP.
+        */
+
+        if (window.innerWidth > 768) {
+            return;
+        }
+
+        const swipeDistance =
+            touchEndX - touchStartX;
+
+
+        /* Swipe kiri */
+
+        if (swipeDistance < -50) {
+
+            const maxIndex = getMaxIndex();
 
             if (currentIndex < maxIndex) {
 
@@ -1678,17 +1800,11 @@ document.addEventListener("DOMContentLoaded", function () {
             }
 
         }
-    );
 
 
-    /* =====================================================
-       PREVIOUS
-    ===================================================== */
+        /* Swipe kanan */
 
-    prevButton.addEventListener(
-        "click",
-        function () {
-
+        if (swipeDistance > 50) {
 
             if (currentIndex > 0) {
 
@@ -1699,75 +1815,17 @@ document.addEventListener("DOMContentLoaded", function () {
             }
 
         }
-    );
+
+    }
 
 
-    /* =====================================================
-       DOT NAVIGATION
-    ===================================================== */
-
-    dots.forEach(function (dot, index) {
-
-
-        dot.addEventListener(
-            "click",
-            function () {
-
-
-                const maxIndex =
-                    getMaxIndex();
-
-
-                if (index <= maxIndex) {
-
-                    currentIndex = index;
-
-                    updateSlider();
-
-                }
-
-            }
-        );
-
-    });
-
-
-    /* =====================================================
-       RESPONSIVE
-    ===================================================== */
-
-    window.addEventListener(
-        "resize",
-        function () {
-
-
-            const maxIndex =
-                getMaxIndex();
-
-
-            if (currentIndex > maxIndex) {
-
-                currentIndex = maxIndex;
-
-            }
-
-
-            updateSlider();
-
-        }
-    );
-
-
-    /* =====================================================
-       INITIAL LOAD
-    ===================================================== */
+    /* ==========================================
+       INITIALIZE
+    ========================================== */
 
     updateSlider();
 
-
 });
-
-</script>
 
 </body>
 </html>
