@@ -297,3 +297,432 @@ if (heroImage) {
     });
 
 }
+
+
+/* =========================================================
+   FLEET / ARMADA SLIDER
+========================================================= */
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const fleetSlider =
+        document.querySelector(".fleet-slider");
+
+    const fleetTrack =
+        document.querySelector(".fleet-track");
+
+    const fleetCards =
+        document.querySelectorAll(".fleet-card");
+
+    const fleetPrev =
+        document.querySelector(".fleet-prev");
+
+    const fleetNext =
+        document.querySelector(".fleet-next");
+
+    const fleetDots =
+        document.querySelectorAll(".fleet-dot");
+
+
+    /* ---------------------------------------------------------
+       CEK ELEMENT SLIDER
+    --------------------------------------------------------- */
+
+    if (
+        !fleetSlider ||
+        !fleetTrack ||
+        fleetCards.length === 0
+    ) {
+
+        return;
+
+    }
+
+
+    let currentIndex = 0;
+
+
+    /* ---------------------------------------------------------
+       JUMLAH CARD YANG DITAMPILKAN
+    --------------------------------------------------------- */
+
+    function getSlidesPerView() {
+
+        const width =
+            window.innerWidth;
+
+
+        // HP
+        if (width <= 768) {
+
+            return 1;
+
+        }
+
+
+        // TABLET
+        if (width <= 1024) {
+
+            return 2;
+
+        }
+
+
+        // DESKTOP
+        return 3;
+
+    }
+
+
+    /* ---------------------------------------------------------
+       INDEX MAKSIMAL
+    --------------------------------------------------------- */
+
+    function getMaxIndex() {
+
+        const slidesPerView =
+            getSlidesPerView();
+
+
+        return Math.max(
+            0,
+            fleetCards.length - slidesPerView
+        );
+
+    }
+
+
+    /* ---------------------------------------------------------
+       UPDATE SLIDER
+    --------------------------------------------------------- */
+
+    function updateFleetSlider() {
+
+        const slidesPerView =
+            getSlidesPerView();
+
+
+        const maxIndex =
+            getMaxIndex();
+
+
+        /* -----------------------------------------------------
+           PASTIKAN INDEX TIDAK MELEBIHI BATAS
+        ----------------------------------------------------- */
+
+        currentIndex =
+            Math.min(
+                currentIndex,
+                maxIndex
+            );
+
+
+        /* -----------------------------------------------------
+           DESKTOP & TABLET
+        ----------------------------------------------------- */
+
+        if (slidesPerView > 1) {
+
+            const cardWidth =
+                fleetCards[0].getBoundingClientRect().width;
+
+
+            const trackStyle =
+                window.getComputedStyle(
+                    fleetTrack
+                );
+
+
+            const gap =
+                parseFloat(
+                    trackStyle.columnGap
+                ) ||
+                parseFloat(
+                    trackStyle.gap
+                ) ||
+                0;
+
+
+            const moveDistance =
+                cardWidth + gap;
+
+
+            fleetTrack.style.transform =
+                `translate3d(-${currentIndex * moveDistance}px, 0, 0)`;
+
+        }
+
+
+        /* -----------------------------------------------------
+           MOBILE
+        ----------------------------------------------------- */
+
+        else {
+
+            const sliderWidth =
+                fleetSlider.clientWidth;
+
+
+            fleetTrack.style.transform =
+                `translate3d(-${currentIndex * sliderWidth}px, 0, 0)`;
+
+        }
+
+
+        /* -----------------------------------------------------
+           UPDATE DOT
+        --------------------------------------------------------- */
+
+        fleetDots.forEach((dot, index) => {
+
+            dot.classList.toggle(
+                "active",
+                index === currentIndex
+            );
+
+        });
+
+
+        /* -----------------------------------------------------
+           BUTTON PREVIOUS
+        ----------------------------------------------------- */
+
+        if (fleetPrev) {
+
+            fleetPrev.disabled =
+                currentIndex <= 0;
+
+        }
+
+
+        /* -----------------------------------------------------
+           BUTTON NEXT
+        ----------------------------------------------------- */
+
+        if (fleetNext) {
+
+            fleetNext.disabled =
+                currentIndex >= maxIndex;
+
+        }
+
+    }
+
+
+    /* =========================================================
+       NEXT BUTTON
+    ========================================================= */
+
+    if (fleetNext) {
+
+        fleetNext.addEventListener(
+            "click",
+            function () {
+
+                const maxIndex =
+                    getMaxIndex();
+
+
+                if (
+                    currentIndex <
+                    maxIndex
+                ) {
+
+                    currentIndex++;
+
+                    updateFleetSlider();
+
+                }
+
+            }
+        );
+
+    }
+
+
+    /* =========================================================
+       PREVIOUS BUTTON
+    ========================================================= */
+
+    if (fleetPrev) {
+
+        fleetPrev.addEventListener(
+            "click",
+            function () {
+
+                if (
+                    currentIndex > 0
+                ) {
+
+                    currentIndex--;
+
+                    updateFleetSlider();
+
+                }
+
+            }
+        );
+
+    }
+
+
+    /* =========================================================
+       DOT NAVIGATION
+    ========================================================= */
+
+    fleetDots.forEach((dot, index) => {
+
+        dot.addEventListener(
+            "click",
+            function () {
+
+                const maxIndex =
+                    getMaxIndex();
+
+
+                currentIndex =
+                    Math.min(
+                        index,
+                        maxIndex
+                    );
+
+
+                updateFleetSlider();
+
+            }
+        );
+
+    });
+
+
+    /* =========================================================
+       RESPONSIVE RESIZE
+    ========================================================= */
+
+    let resizeTimer;
+
+
+    window.addEventListener(
+        "resize",
+        function () {
+
+            clearTimeout(
+                resizeTimer
+            );
+
+
+            resizeTimer =
+                setTimeout(
+                    function () {
+
+                        const maxIndex =
+                            getMaxIndex();
+
+
+                        currentIndex =
+                            Math.min(
+                                currentIndex,
+                                maxIndex
+                            );
+
+
+                        updateFleetSlider();
+
+                    },
+                    150
+                );
+
+        }
+    );
+
+
+    /* =========================================================
+       SWIPE UNTUK HP
+    ========================================================= */
+
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+
+    fleetSlider.addEventListener(
+        "touchstart",
+        function (event) {
+
+            touchStartX =
+                event.changedTouches[0].screenX;
+
+        },
+        {
+            passive: true
+        }
+    );
+
+
+    fleetSlider.addEventListener(
+        "touchend",
+        function (event) {
+
+            touchEndX =
+                event.changedTouches[0].screenX;
+
+
+            const difference =
+                touchStartX - touchEndX;
+
+
+            /* -------------------------------------------------
+               SWIPE KIRI
+            ------------------------------------------------- */
+
+            if (difference > 50) {
+
+                const maxIndex =
+                    getMaxIndex();
+
+
+                if (
+                    currentIndex <
+                    maxIndex
+                ) {
+
+                    currentIndex++;
+
+                    updateFleetSlider();
+
+                }
+
+            }
+
+
+            /* -------------------------------------------------
+               SWIPE KANAN
+            ------------------------------------------------- */
+
+            if (difference < -50) {
+
+                if (
+                    currentIndex > 0
+                ) {
+
+                    currentIndex--;
+
+                    updateFleetSlider();
+
+                }
+
+            }
+
+        },
+        {
+            passive: true
+        }
+    );
+
+
+    /* =========================================================
+       INITIALIZE SLIDER
+    ========================================================= */
+
+    updateFleetSlider();
+
+});
