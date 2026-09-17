@@ -969,12 +969,179 @@ textarea {
     background: #f5faff;
 }
 
-.fleet-grid {
-    display: grid;
+/* =====================================================
+   FLEET SLIDER
+===================================================== */
 
-    grid-template-columns: repeat(3, 1fr);
+.fleet-slider-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    margin-top: 45px;
+}
 
-    gap: 22px;
+.fleet-slider {
+    width: 100%;
+    overflow: hidden;
+}
+
+.fleet-track {
+    display: flex;
+    gap: 24px;
+    transition: transform 0.5s ease;
+    will-change: transform;
+}
+
+
+/* CARD */
+
+.fleet-track .fleet-card {
+    flex: 0 0 calc((100% - 48px) / 3);
+    min-width: 0;
+}
+
+
+/* ARROW */
+
+.fleet-arrow {
+    width: 46px;
+    height: 46px;
+
+    flex-shrink: 0;
+
+    border: none;
+    border-radius: 50%;
+
+    background: #ffffff;
+    color: #0b6bcb;
+
+    font-size: 22px;
+    font-weight: 700;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
+}
+
+.fleet-arrow:hover {
+    transform: scale(1.08);
+
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.18);
+
+    background: #0b6bcb;
+    color: #ffffff;
+}
+
+
+/* DOTS */
+
+.fleet-dots {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+
+    margin-top: 25px;
+}
+
+.fleet-dot {
+    width: 8px;
+    height: 8px;
+
+    padding: 0;
+
+    border: none;
+    border-radius: 50%;
+
+    background: #d2dce8;
+
+    cursor: pointer;
+
+    transition:
+        width 0.25s ease,
+        background 0.25s ease;
+}
+
+.fleet-dot.active {
+    width: 24px;
+    border-radius: 10px;
+    background: #0b6bcb;
+}
+
+
+/* =====================================================
+   TABLET
+===================================================== */
+
+@media (max-width: 992px) {
+
+    .fleet-track {
+        gap: 20px;
+    }
+
+    .fleet-track .fleet-card {
+        flex: 0 0 calc((100% - 20px) / 2);
+    }
+
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 768px) {
+
+    .fleet-slider-wrapper {
+        gap: 8px;
+    }
+
+    .fleet-track {
+        gap: 0;
+    }
+
+    .fleet-track .fleet-card {
+        flex: 0 0 100%;
+    }
+
+    .fleet-arrow {
+        width: 38px;
+        height: 38px;
+
+        font-size: 18px;
+    }
+
+}
+
+
+/* =====================================================
+   SMALL MOBILE
+===================================================== */
+
+@media (max-width: 480px) {
+
+    .fleet-slider-wrapper {
+        gap: 5px;
+    }
+
+    .fleet-arrow {
+        width: 34px;
+        height: 34px;
+
+        font-size: 16px;
+    }
+
 }
 
 .fleet-card {
