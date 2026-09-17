@@ -196,7 +196,7 @@ Mohon informasi ketersediaan dan estimasi biaya. Terima kasih.`;
 
 
         const whatsappNumber =
-            "6281234567890";
+            "6281219727254";
 
 
         const whatsappURL =
